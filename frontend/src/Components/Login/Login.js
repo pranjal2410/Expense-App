@@ -4,10 +4,11 @@ import { LockOpen, LockOutlined } from '@material-ui/icons';
 import {BrowserRouter, Link, useHistory} from 'react-router-dom';
 import Slide from "@material-ui/core/Slide";
 import axios from 'axios';
+import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
 
 const useStyles = makeStyles((theme) => ({
     cont : {
-        paddingTop: '15%'
+        paddingTop: '5%'
     },
     welcome : {
         fontSize: '31px',
@@ -42,7 +43,15 @@ const useStyles = makeStyles((theme) => ({
     slideAvatar: {
         margin: "auto",
         position: 'relative',
-    }
+    },
+    main : {
+        color:'#fff',
+        paddingTop:'4%',
+        [theme.breakpoints.down('md')] : {
+            fontSize: '70px',
+            paddingTop: '12%'
+        }
+    },
 }));
 
 
@@ -92,6 +101,9 @@ const Login = () => {
 
     return (
         <Container component="main" maxWidth="sm">
+            <Typography variant="h3" align="center" className={classes.main}>
+                THE EXPENSE APP <AccountBalanceRoundedIcon fontSize="large"/>
+            </Typography>
             <div className={classes.cont}>
                 <Paper elevation={15}>
                     <div className={classes.heading}>
@@ -134,7 +146,7 @@ const Login = () => {
                         >
                             Log In
                         </Button>
-                        <div style={{textAlign: "center"}} onClick={() => history.push('/')} className={classes.link}>SignUp</div>
+                        <div style={{textAlign: "center"}} onClick={() => history.push('/Signup/')} className={classes.link}>SignUp</div>
                     </form>
                 </Paper>
             </div>

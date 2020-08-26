@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import { Container, Typography, makeStyles, Paper, TextField, Button, Avatar } from '@material-ui/core';
-import { LockOpen, LockOutlined } from '@material-ui/icons';
+import {LockOpen, LockOutlined, Visibility, VisibilityOff} from '@material-ui/icons';
 import {BrowserRouter, Link, useHistory} from 'react-router-dom';
 import Slide from "@material-ui/core/Slide";
 import axios from 'axios';
 import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles((theme) => ({
     cont : {
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         padding: '20px',
         paddingTop: '0px',
         paddingBottom: '10px',
-        color: 'white'
+        color: 'white',
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
@@ -58,8 +60,7 @@ const SignUp = () => {
     const [values,setValues] = useState({
         username: '',
         password: '',
-        password2: '',
-
+        showPassword: false,
     })
 
     const handleChange = (e) => {
@@ -121,9 +122,21 @@ const SignUp = () => {
                                 id="full name"
                                 label="Full Name"
                                 type="text"
+                                style={{ width: 200}}
                                 autoComplete="Full Name"
                                 onChange={handleChange}
-                                fullWidth required autoFocus
+                                required autoFocus
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                id="email"
+                                label="Contact Number"
+                                style={{ marginLeft: '10px', width: 200}}
+                                type="number"
+                                autoComplete="Contact Number"
+                                onChange={handleChange}
+                                required autoFocus
                             />
                             <TextField
                                 variant="outlined"
@@ -133,7 +146,7 @@ const SignUp = () => {
                                 type="email"
                                 autoComplete="Email"
                                 onChange={handleChange}
-                                fullWidth required autoFocus
+                                required autoFocus fullWidth
                             />
                             <TextField
                                 variant="outlined"
@@ -141,10 +154,56 @@ const SignUp = () => {
                                 required
                                 fullWidth
                                 label="Password"
-                                type="password"
+                                type={values.showPassword? "text":"password"}
+                                style={{ width: 200}}
                                 id="password"
                                 onChange={handleChange}
                                 autoComplete="password"
+                                InputProps = {{
+                                    endAdornment:
+                                        <IconButton
+                                            aria-label= "toggle password visibility"
+                                            onClick={() => setValues({...values, showPassword:  !values.showPassword})}
+                                        >
+                                            { values.showPassword ? <Visibility/> : <VisibilityOff />}
+                                        </IconButton>
+
+                                }}
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                label="Confirm Password"
+                                type={values.showPassword? "text":"password"}
+                                style={{ marginLeft: '10px', width: 200}}
+                                id="confirm_password"
+                                onChange={handleChange}
+                                autoComplete="confirm password"
+                                InputProps = {{
+                                    endAdornment:
+                                        <IconButton
+                                            aria-label= "toggle password visibility"
+                                            onClick={() => setValues({...values, showPassword:  !values.showPassword})}
+                                        >
+                                            { values.showPassword ? <Visibility/> : <VisibilityOff />}
+                                        </IconButton>
+
+                                }}
+                            />
+                            <Divider/>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                label="Flat No"
+                                type="password"
+                                id="confirm_password"
+                                style={{ width: 200}}
+                                onChange={handleChange}
+                                autoComplete="confirm password"
                             />
                             <Button
                                 type="submit"
@@ -156,7 +215,7 @@ const SignUp = () => {
                             >
                                 Sign Up
                             </Button>
-                            <div style={{textAlign: "center"}} className={classes.link} onClick={() => history.push('/Login/')}>Login</div>
+                            <div style={{textAlign: "center"}} className={classes.link} onClick={() => history.push('/')}>Login</div>
                         </form>
                     </Paper>
             </div>
