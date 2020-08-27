@@ -13,7 +13,7 @@ from .models import *
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
-        fields = ['full_name', 'username', 'password', 'email', 'ph_no', 'flat_no', 'society', 'photo']
+        fields = ['full_name', 'username', 'password', 'email', 'ph_no', 'flat_no', 'society']
         validators = [
             UniqueTogetherValidator(
                 queryset=MyUser.objects.all(),

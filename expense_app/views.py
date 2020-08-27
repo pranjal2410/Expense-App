@@ -6,19 +6,15 @@ from django.urls import reverse_lazy
 from django.views import generic
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
-from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import *
 from .models import MyUser, Income, Expense, Source
-from django import forms
 from django.contrib import auth
 from rest_framework.authtoken.models import Token
-from rest_framework.authentication import BasicAuthentication, TokenAuthentication, get_authorization_header
-from rest_framework_jwt.utils import jwt_decode_handler
-import jwt
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -88,7 +84,7 @@ def update_profile(request):
     if request.method == 'POST':
         form = UpdateProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            profile = MyUser.objects.get(username=request.user.username)
+            profile = request.user
             profile.email = form.cleaned_data['email']
             profile.ph_no = form.cleaned_data['ph_no']
             profile.flat_no = form.cleaned_data['flat_no']
@@ -209,17 +205,18 @@ def add_expense(request):
             return redirect('expense')
 
 
-@api_view(['GET', 'POST'])
-def income_report(request):
-    if request.method == 'GET':
+class IncomeReport(RetrieveAPIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request):
         profile = request.user
         incomes = Income.objects.filter(user=profile)
         incomes = incomes.order_by('date')
         income_sources = Source.objects.filter(user=profile, type='Income')
         serialized_incomes = IncomeSerializer(incomes, many=True)
         serialized_sources = SourceSerializer(income_sources, many=True)
-        return JsonResponse({'Incomes': serialized_incomes.data, 'min_amount': 0,
-                             'max_amount': 100, 'sources': serialized_sources.data, 'username': profile.username})
+        return Response({'Incomes': serialized_incomes.data, 'min_amount': 0,
+                         'max_amount': 100, 'sources': serialized_sources.data, 'username': profile.username})
 
 
 def expense_report(request):

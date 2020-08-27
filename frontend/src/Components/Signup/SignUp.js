@@ -58,8 +58,13 @@ const useStyles = makeStyles((theme) => ({
 const SignUp = () => {
     const classes = useStyles();
     const [values,setValues] = useState({
+        full_name: '',
         username: '',
+        ph_no: '',
+        flat_no: '',
+        society: '',
         password: '',
+        password2: '',
         showPassword: false,
     })
 
@@ -78,10 +83,7 @@ const SignUp = () => {
             headers: {
                 "content-type": "application/json"
             },
-            data: {
-                "username": values.email,
-                "password": values.password
-            },
+            data: values,
             url: 'http://127.0.0.1:8000/api/SignUp/'
         })
             .then((response) => {
@@ -119,7 +121,7 @@ const SignUp = () => {
                             <TextField
                                 variant="outlined"
                                 margin="normal"
-                                id="full name"
+                                id="full_name"
                                 label="Full Name"
                                 type="text"
                                 style={{ width: 200}}
@@ -130,7 +132,7 @@ const SignUp = () => {
                             <TextField
                                 variant="outlined"
                                 margin="normal"
-                                id="email"
+                                id="ph_no"
                                 label="Contact Number"
                                 style={{ marginLeft: '10px', width: 200}}
                                 type="number"
@@ -141,7 +143,7 @@ const SignUp = () => {
                             <TextField
                                 variant="outlined"
                                 margin="normal"
-                                id="email"
+                                id="username"
                                 label="Email"
                                 type="email"
                                 autoComplete="Email"
@@ -178,7 +180,7 @@ const SignUp = () => {
                                 label="Confirm Password"
                                 type={values.showPassword? "text":"password"}
                                 style={{ marginLeft: '10px', width: 200}}
-                                id="confirm_password"
+                                id="password2"
                                 onChange={handleChange}
                                 autoComplete="confirm password"
                                 InputProps = {{
@@ -199,11 +201,35 @@ const SignUp = () => {
                                 required
                                 fullWidth
                                 label="Flat No"
-                                type="password"
-                                id="confirm_password"
-                                style={{ width: 200}}
+                                type="text"
+                                id="flat_no"
+                                style={{ width: 150}}
                                 onChange={handleChange}
-                                autoComplete="confirm password"
+                                autoComplete="Flat no"
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                label="Society"
+                                type="text"
+                                id="society"
+                                style={{ marginLeft: '10px', width: 150}}
+                                onChange={handleChange}
+                                autoComplete="Society"
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                label="Locality"
+                                type="text"
+                                id="locality"
+                                style={{ marginLeft: '10px', width: 150}}
+                                onChange={handleChange}
+                                autoComplete="Locality"
                             />
                             <Button
                                 type="submit"
